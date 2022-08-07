@@ -1,0 +1,13 @@
+asgiref==3.5.2
+DateTime==4.5
+Django==4.1
+django-localflavor==3.1
+localflavor==1.9
+psycopg2==2.9.3
+python-dateutil==2.8.2
+python-stdnum==1.17
+pytz==2022.1
+six==1.16.0
+sqlparse==0.4.2
+tzdata==2022.1
+zope.interface==5.4.0
