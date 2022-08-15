@@ -1,8 +1,11 @@
 asgiref==3.5.2
 DateTime==4.5
 Django==4.1
+django-crispy-forms==1.14.0
 django-localflavor==3.1
 localflavor==1.9
+numpy==1.23.2
+pandas==1.4.3
 psycopg2==2.9.3
 python-dateutil==2.8.2
 python-stdnum==1.17
