@@ -1,9 +1,10 @@
 from django.contrib import messages, auth
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.shortcuts import redirect, render
-from ansuz.models import Usuario
-from ansuz.forms import CadastroForm, LoginForms
+from ansuz.models import Usuario, PlanoCurso, TopicoAula
+from ansuz.forms import CadastroForm, LoginForms, SubmeterNovoPlanoForm, CadastrarTopicoAulaForm
 
 
 def cadastro(request):
@@ -46,3 +47,29 @@ def home(request):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+def submeter_planocurso(request):
+    form = SubmeterNovoPlanoForm(request.POST or None)
+    if request.method == 'POST':
+        form = SubmeterNovoPlanoForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                novo_plano_curso = PlanoCurso.objects.create(prof_responsavel=request.user.pk,
+                                                             titulo=form.cleaned_data.get('titulo'),
+                                                             area=form.cleaned_data.get('area'),
+                                                             carga_horaria=form.cleaned_data.get('carga_horario'),
+                                                             ementa=form.cleaned_data.get('ementa'),
+                                                             obj_geral=form.cleaned_data.get('obj_geral'),
+                                                             avaliacao=form.cleaned_data.get('avaliacao'),
+                                                             )
+                messages.success(request, f'Seu Plano de Curso {form.cleaned_data.get("titulo")} foi cadastrado com sucesso!')
+
+def cadastrar_topico_aula(request):
+    form = CadastrarTopicoAulaForm(request.POST or None)
+    if request.method =='POST':
+        form = CadastrarTopicoAulaForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                novo_topico_aula = TopicoAula.objects.create(titulo=form.cleaned_data.get('titulo'),
+                                                             descricao=form.cleaned_data.get('descricao'),
+                                                             )
