@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Inicial</title>
+</head>
+<body>
+    <h1> Bem-vindo(a) à plataforma de Comunidade de Práticas do AVASUS, <b>o Ansuz<b>! </h1>
+        <div class="classnav">
+            <li> Já tem uma conta? Clique aqui para efetuar seu <a href= "{% url 'login' %}"> Login </a></li>
+            <li> Não possui conta? Clique aqui para realizar seu <a href= "{% url 'cadastro' %}"> Cadastro </a></li>
+            <li> Quer verificar a autenticidade de seus certificados? <a href= "{% url 'autenticar' %}"> Clique aqui </a></li>
+        </div>
+</body>
+</html>

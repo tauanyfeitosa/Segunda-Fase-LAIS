@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+{% if messages %}
+   {% for message in messages %}
+    {{ message }}
+  {% endfor %}
+{% endif %}
+
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+    <section class = "container mt-2">
+    <h1>Login</h1>
+    <p>Ainda não tem uma conta? <a href="{% url 'cadastro' %}">Cadastre-se</a></p>
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+</body>
+</html>
