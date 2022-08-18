@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import check_password
 from django.utils.datetime_safe import date
 from localflavor.br.forms import BRCPFField
-from ansuz.models import Usuario
+from ansuz.models import Usuario, Area, Avaliacao, StatusCurso
 from ansuz.models import Titulacao
 
 class CadastroForm(UserCreationForm):
@@ -106,3 +106,22 @@ class LoginForms(forms.Form):
             raise forms.ValidationError("A senha está incorreta!")
         if password1 == "":
             raise forms.ValidationError("Esse campo é obrigatório!")
+
+class SubmeterNovoPlanoForm(forms.Form):
+    titulo = forms.CharField(max_length=120, label='Título do Curso', required=True)
+    area = forms.ModelChoiceField(label='Área Temática', empty_label='Selecione', queryset=Area.objects.all(),
+                                  required=True)
+    carga_horaria = forms.IntegerField(label='Carga Horária', min_value=3, max_value=350, required=True)
+    ementa = forms.CharField(widget=forms.Textarea, label='Ementa do Curso', max_length=500, required=True)
+    obj_geral = forms.CharField(widget=forms.Textarea, label='Objetivo Geral', max_length=300, required=True)
+    avaliacao = forms.ChoiceField(label='Avaliação', choices=[(None, 'Selecione')] + list(Avaliacao.CHOICES), required=True)
+
+    def clean_carga_horaria(self):
+        carga_horaria = self.cleaned_data.get('carga_horaria')
+        if not 3 <= carga_horaria <= 350:
+            raise forms.ValidationError('A carga horária deve estar entre 3 e 350')
+        return carga_horaria
+
+class CadastrarTopicoAulaForm(forms.Form):
+    titulo = forms.CharField(max_length=120, label='Tópico de Aula', required=True)
+    descricao = forms.CharField(widget=forms.Textarea, label='Descrição', max_length=500, required=True)
