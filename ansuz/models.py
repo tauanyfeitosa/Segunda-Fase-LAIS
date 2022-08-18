@@ -1,9 +1,9 @@
 from dateutil.relativedelta import relativedelta
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
-from django.db.models import FloatField, IntegerField, PositiveIntegerField
 from django.utils.datetime_safe import date
 from localflavor.br.models import BRCPFField
 
@@ -143,9 +143,12 @@ class PlanoCurso(models.Model):
     prof_responsavel = models.ForeignKey('Usuario',on_delete=models.CASCADE,related_name='planos_curso')
     titulo = models.CharField(verbose_name='Título', max_length=120)
     area = models.ForeignKey('Area', on_delete=models.CASCADE, related_name='planos_curso')
-    carga_horaria = PositiveIntegerField(verbose_name='Carga Horária')
+    carga_horaria = models.IntegerField(verbose_name='Carga Horária', default=3, validators=[
+        MaxValueValidator(350),
+        MinValueValidator(3)
+    ])
     ementa = models.TextField(verbose_name='Ementa do Curso', max_length=500)
-    obj_geral = models.CharField(verbose_name='Objetivo Geral', max_length=300)
+    obj_geral = models.TextField(verbose_name='Objetivo Geral', max_length=300)
     avaliacao = models.CharField(verbose_name='Tipo de Avaliação', choices=Avaliacao.CHOICES, max_length=1)
     status = models.CharField(verbose_name='Status do Curso', choices=StatusCurso.CHOICES, max_length=1,
                               default=StatusCurso.PENDENTE_DE_APROVACAO)
@@ -160,3 +163,9 @@ class Area(models.Model):
     def __str__(self):
         return self.nome
 
+class TopicoAula(models.Model):
+    titulo = models.CharField(verbose_name='Tópico de Aula', max_length=120)
+    descricao = models.TextField(verbose_name='Descriçaõ', max_length=500)
+    plano_curso = models.ForeignKey('PlanoCurso', on_delete=models.CASCADE, related_name='topicos_aula')
+
+    # def limite_topicos_aula(self):
