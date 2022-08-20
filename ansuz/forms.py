@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import check_password
 from django.utils.datetime_safe import date
 from localflavor.br.forms import BRCPFField
-from ansuz.models import Usuario, Area, Avaliacao, StatusCurso
+from ansuz.models import Usuario, Area, Avaliacao, StatusCurso, PlanoCurso
 from ansuz.models import Titulacao
 
 class CadastroForm(UserCreationForm):
@@ -116,6 +116,20 @@ class SubmeterNovoPlanoForm(forms.Form):
     obj_geral = forms.CharField(widget=forms.Textarea, label='Objetivo Geral', max_length=300, required=True)
     avaliacao = forms.ChoiceField(label='Avaliação', choices=[(None, 'Selecione')] + list(Avaliacao.CHOICES), required=True)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column("titulo", css_class="form-group col-12"),
+                Column("area", css_class="form-group col-12"),
+                Column("carga_horaria", css_class="form-group col-12"),
+                Column("ementa", css_class="form-group col-12"),
+                Column("obj_geral", css_class="form-group col-12"),
+                Column("avaliacao", css_class="form-group col-12"),
+            ),
+            Submit('submit', 'Cadastrar', css_class='btn btn-primary'))
+
     def clean_carga_horaria(self):
         carga_horaria = self.cleaned_data.get('carga_horaria')
         if not 3 <= carga_horaria <= 350:
@@ -125,3 +139,22 @@ class SubmeterNovoPlanoForm(forms.Form):
 class CadastrarTopicoAulaForm(forms.Form):
     titulo = forms.CharField(max_length=120, label='Tópico de Aula', required=True)
     descricao = forms.CharField(widget=forms.Textarea, label='Descrição', max_length=500, required=True)
+    plano_curso = forms.CharField(label='Plano de Curso', widget=forms.Select(), required=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column("titulo", css_class="form-group col-12"),
+                Column("descricao", css_class="form-group col-12"),
+            ),
+            Submit('submit', 'Cadastrar', css_class='btn btn-primary'))
+    def clean_plano_curso(self):
+        plano_curso=self.cleaned_data.get('plano_curso')
+        if plano_curso:
+            try:
+                return PlanoCurso.objects.get(pk=plano_curso)
+            except PlanoCurso.DoesNotExist:
+                self.add_error('plano_curso', 'Plano inválido')
+        return plano_curso if plano_curso else None
