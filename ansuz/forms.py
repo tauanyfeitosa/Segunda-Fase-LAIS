@@ -139,7 +139,6 @@ class SubmeterNovoPlanoForm(forms.Form):
 class CadastrarTopicoAulaForm(forms.Form):
     titulo = forms.CharField(max_length=120, label='Tópico de Aula', required=True)
     descricao = forms.CharField(widget=forms.Textarea, label='Descrição', max_length=500, required=True)
-    plano_curso = forms.CharField(label='Plano de Curso', widget=forms.Select(), required=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -150,11 +149,3 @@ class CadastrarTopicoAulaForm(forms.Form):
                 Column("descricao", css_class="form-group col-12"),
             ),
             Submit('submit', 'Cadastrar', css_class='btn btn-primary'))
-    def clean_plano_curso(self):
-        plano_curso=self.cleaned_data.get('plano_curso')
-        if plano_curso:
-            try:
-                return PlanoCurso.objects.get(pk=plano_curso)
-            except PlanoCurso.DoesNotExist:
-                self.add_error('plano_curso', 'Plano inválido')
-        return plano_curso if plano_curso else None
