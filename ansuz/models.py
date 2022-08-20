@@ -94,6 +94,9 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         verbose_name = ('usuário')
         verbose_name_plural = ('usuários')
 
+    def id_equipe(self):
+        return self.id
+
     def get_nome_completo(self):
         return self.nome_completo
 
@@ -155,6 +158,21 @@ class PlanoCurso(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
 
+    def get_titulo(self):
+        return self.titulo
+    def get_area(self):
+        return self.area
+    def get_carga_horaria(self):
+        return self.carga_horaria
+    def get_ementa(self):
+        return self.ementa
+    def get_obj_geral(self):
+        return self.obj_geral
+    def get_avaliacao(self):
+        return self.avaliacao
+    def get_status(self):
+        return self.status
+
 class Area(models.Model):
     nome = models.CharField(verbose_name='Área Temática', max_length=255)
     criado_em = models.DateTimeField(auto_now_add=True)
@@ -168,4 +186,4 @@ class TopicoAula(models.Model):
     descricao = models.TextField(verbose_name='Descriçaõ', max_length=500)
     plano_curso = models.ForeignKey('PlanoCurso', on_delete=models.CASCADE, related_name='topicos_aula')
 
-    # def limite_topicos_aula(self):
+    #def limite_topicos_aula(self):
