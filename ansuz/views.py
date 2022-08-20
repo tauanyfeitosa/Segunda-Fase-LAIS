@@ -68,16 +68,15 @@ def logout_user(request):
     return redirect('login')
 
 @login_required()
-def topicoscurso(request):
+def topicoscurso(request, id_plano):
     form = CadastrarTopicoAulaForm(request.POST or None)
-    if request.method =='POST':
+    if request.method == 'POST':
         form = CadastrarTopicoAulaForm(request.POST)
         if form.is_valid():
             with transaction.atomic():
                 novo_topico_aula = TopicoAula.objects.create(titulo=form.cleaned_data.get('titulo'),
                                                              descricao=form.cleaned_data.get('descricao'),
-
-                                                             )
+                                                             plano_curso=PlanoCurso.objects.get(pk=id_plano))
                 messages.success(request,
                                  f'Seu Topico de Aula {form.cleaned_data.get("titulo")} foi cadastrado com sucesso!')
                 return redirect('home')
