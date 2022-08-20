@@ -1,117 +1,123 @@
 <!DOCTYPE html>
 {% load crispy_forms_tags %}
 {% if messages %}
-   {% for message in messages %}
-    {{ message }}
-  {% endfor %}
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
 {% endif %}
 <html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-    <!-- CSS only -->
+    <head>
+        <meta charset="UTF-8">
+        <title>Home</title>
+        <!-- CSS only -->
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"><!--Manter a modal aberta-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> <!--mostrar a modal-->
-</head>
-<body>
-<div class="container-fluid">
-    <h1> Bem-vindo(a), {{user.get_nome}} {{user.get_sobrenome}} </h1>
-    <p><b>Nome Completo:</b> {{user.nome_completo}}</p>
-    <p><b>Data de Nascimento:</b> {{user.get_data_de_nascimento}}</p>
-    <p><b>Idade:</b> {{user.get_idade}} anos</p>
-    <p><b>CPF:</b> {{user.cpf}}</p>
-</div>
-
-    <!-- Button trigger modal -->
-    <div class="container-fluid">
-      <h5>Cadastrar Novo Curso</h5>
-      <!-- Trigger the modal with a button -->
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUsuarioModal">Cadastrar</button>
-
-      <!-- Modal -->
-      <div class="modal fade" id="addUsuarioModal" role="dialog">
-        <div class="modal-dialog">
-
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h3 class="modal-title"></h3>
-            </div>
-            <div class="modal-body">
-                <p><h3>Prencha as lacunas abaixo para criar um novo curso</h3></p>
-                <form action="{% url 'home' %}" method="POST">
-                    {% csrf_token %}
-                    {% crispy form %}
-                </form>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            </div>
-          </div>
-
-
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <!--Manter a modal aberta-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <!--mostrar a modal-->
+    </head>
+    <body>
+        <div class="container-fluid">
+            <h1> Bem-vindo(a), {{user.get_nome}} {{user.get_sobrenome}} </h1>
+            <p><b>Nome Completo:</b> {{user.nome_completo}}</p>
+            <p><b>Data de Nascimento:</b> {{user.get_data_de_nascimento}}</p>
+            <p><b>Idade:</b> {{user.get_idade}} anos</p>
+            <p><b>CPF:</b> {{user.cpf}}</p>
         </div>
-        </div>
-      </div>
 
-    </div>
-<p> </p>
-        <p><h3>CURSOS MINISTRADOS</h3></p>
-<table class="table table-striped table-bordered table-hover">
-  <thead>
-    <tr>
-      <th >Título</th>
-      <th >Status</th>
-      <th >Mais Informações</th>
-    </tr>
-  </thead>
+        <!-- Button trigger modal -->
+        <div class="container-fluid">
+            <h5>Cadastrar Novo Curso</h5>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUsuarioModal">Cadastrar</button>
+            <!-- Modal -->
+            <div class="modal fade" id="addUsuarioModal" role="dialog">
+                <div class="modal-dialog">
 
-  <tbody>
-         {% for plano in planos %}
-    <tr>
-      <td> {{ plano.titulo }}  </td> <!--Titulo-->
-      <td> {{ plano.get_status_display }} </td> <!--Status-->
-      <td> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adddescricao">Descrição</button> <!--Modal descrição-->
-
-          <!-- Modal -->
-          <div class="modal fade" id="adddescricao" role="dialog">
-            <div class="modal-dialog">
-
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h3 class="modal-title" ></h3>
-                </div>
-                <div class="modal-body">
-                    <p><h5>Descrição do curso {{ plano.titulo }}</h5></p>
-                    <p> <h6><b>Ementa: </b>{{ plano.ementa }}</h6></p>
-                    <p> <h6><b>Objetivo Geral: </b>{{ plano.obj_geral }}</h6></p>
-                    <p> <h6><b>Carga Horária Total: </b>{{ plano.carga_horaria }} horas</h6></p>
-                    <p> <h6><b>Tópicos de Aula: </b></h6></p>
-                    <p><a href="{% url 'topicoscurso' %}">Novo Tópico</a></p>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Prencha as lacunas abaixo para criar um novo curso</h3>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{% url 'home' %}" method="POST">
+                                {% csrf_token %}
+                                {% crispy form %}
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                             </div>
-                          </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p></p>
+        <p>
+        <h3>CURSOS MINISTRADOS</h3></p>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Título</th>
+                <th>Status</th>
+                <th>Mais Informações</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for plano in planos %}
+            <tr>
+                <td> {{ plano.titulo }}</td> <!--Titulo-->
+                <td> {{ plano.get_status_display }}</td> <!--Status-->
+
+                <td>
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#adddescricao{{ forloop.counter }}">Descrição
+                    </button> <!--Modal descrição-->
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="adddescricao{{ forloop.counter }}" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Descrição do curso: {{ plano.titulo }}</h3>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p> <h6><b>Ementa: </b>{{ plano.ementa }}</h6></p>
+                                    <p> <h6><b>Objetivo Geral: </b>{{ plano.obj_geral }}</h6></p>
+                                    <p> <h6><b>Carga Horária Total: </b>{{ plano.carga_horaria }} horas</h6></p>
+                                    <p> <h6>{% if plano.topicos_aula.all %}<b>Tópicos de Aula:</b> {% endif %} <br><br>
+                                            {% for topicos in plano.topicos_aula.all %}
+                                    <p>{{ topicos }}</p>{% endfor %}</h6></p>
+                                    {% if plano.status == '1' %}
+                                    <p><a href="{% url 'topicoscurso' plano.id %}">Novo Tópico</a></p>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
-      </td>
-    </tr>
-          {% endfor %}
-  </tbody>
-</table>
-    <div class="classnav">
-        <li><a href= "{% url 'logout' %}">Encerrar Sessão </a></li>
-    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="classnav">
+            <li><a href="{% url 'logout' %}">Encerrar Sessão </a></li>
+        </div>
 
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-    <script>
-        $('#exampleModal').on('shown.bs.modal', function () {
-        $('#exampleModal').trigger('focus')
-        })
-    </script>
-</body>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+                crossorigin="anonymous">
+        </script>
+    </body>
 </html>
