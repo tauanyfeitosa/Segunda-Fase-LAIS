@@ -133,3 +133,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'ansuz.Usuario'
 
 DATE_INPUT_FORMATS = ['%d-%m-%Y']
+
+SITE_URL = "https://example.com"
