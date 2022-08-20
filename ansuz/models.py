@@ -6,6 +6,8 @@ from django.contrib.auth.models import (
 )
 from django.utils.datetime_safe import date
 from localflavor.br.models import BRCPFField
+from markdownfield.models import MarkdownField, RenderedMarkdownField
+from markdownfield.validators import VALIDATOR_STANDARD
 
 class GerenciadorUsuarios(BaseUserManager):
     def create_user(self, cpf, nome_completo, data_de_nascimento, titulacao, termos_uso, password=None,
@@ -173,6 +175,9 @@ class PlanoCurso(models.Model):
     def get_status(self):
         return self.status
 
+    def __str__(self):
+        return self.titulo + ' - ' + self.get_status_display()
+
 class Area(models.Model):
     nome = models.CharField(verbose_name='Área Temática', max_length=255)
     criado_em = models.DateTimeField(auto_now_add=True)
@@ -183,7 +188,21 @@ class Area(models.Model):
 
 class TopicoAula(models.Model):
     titulo = models.CharField(verbose_name='Tópico de Aula', max_length=120)
-    descricao = models.TextField(verbose_name='Descriçaõ', max_length=500)
+    descricao = MarkdownField(rendered_field='text_rendered', validator=VALIDATOR_STANDARD)
+    text_rendered = RenderedMarkdownField()
     plano_curso = models.ForeignKey('PlanoCurso', on_delete=models.CASCADE, related_name='topicos_aula')
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.titulo
 
     #def limite_topicos_aula(self):
+
+class Certificado(models.Model):
+    nome = models.CharField(verbose_name="Nome do documento", max_length=255)
+    pdf = models.FileField(verbose_name="PDF", upload_to="Tauany/Projeto-LAIS/Segunda-Fase-LAIS/ansuz/documentos")
+    codigo_verificador = models.CharField(verbose_name="Código Verificador", max_length=8)
+    plano_curso = models.ForeignKey('PlanoCurso', related_name='certificados', on_delete=models.CASCADE)
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
