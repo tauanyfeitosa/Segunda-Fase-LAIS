@@ -40,31 +40,35 @@ def autenticar(request):
 
 @login_required()
 def home(request):
-    return render(request, 'usuarios/home.html')
-
+    form = SubmeterNovoPlanoForm(request.POST or None)
+    if request.method == 'POST':
+        form = SubmeterNovoPlanoForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                novo_plano_curso = PlanoCurso.objects.create(prof_responsavel=request.user,
+                                                             titulo=form.cleaned_data.get('titulo'),
+                                                             area=form.cleaned_data.get('area'),
+                                                             carga_horaria=form.cleaned_data.get('carga_horaria'),
+                                                             ementa=form.cleaned_data.get('ementa'),
+                                                             obj_geral=form.cleaned_data.get('obj_geral'),
+                                                             avaliacao=form.cleaned_data.get('avaliacao')
+                                                             )
+                messages.success(request,
+                                 f'Seu Plano de Curso {form.cleaned_data.get("titulo")} foi cadastrado com sucesso!')
+                return redirect('home')
+    planos = request.user.planos_curso.all()
+    for plano in planos:
+        status = plano.get_status_display()
+        id_plano=plano.pk
+    return render(request, 'usuarios/home.html', locals())
 
 @login_required()
 def logout_user(request):
     logout(request)
     return redirect('login')
 
-def submeter_planocurso(request):
-    form = SubmeterNovoPlanoForm(request.POST or None)
-    if request.method == 'POST':
-        form = SubmeterNovoPlanoForm(request.POST)
-        if form.is_valid():
-            with transaction.atomic():
-                novo_plano_curso = PlanoCurso.objects.create(prof_responsavel=request.user.pk,
-                                                             titulo=form.cleaned_data.get('titulo'),
-                                                             area=form.cleaned_data.get('area'),
-                                                             carga_horaria=form.cleaned_data.get('carga_horario'),
-                                                             ementa=form.cleaned_data.get('ementa'),
-                                                             obj_geral=form.cleaned_data.get('obj_geral'),
-                                                             avaliacao=form.cleaned_data.get('avaliacao'),
-                                                             )
-                messages.success(request, f'Seu Plano de Curso {form.cleaned_data.get("titulo")} foi cadastrado com sucesso!')
-
-def cadastrar_topico_aula(request):
+@login_required()
+def topicoscurso(request):
     form = CadastrarTopicoAulaForm(request.POST or None)
     if request.method =='POST':
         form = CadastrarTopicoAulaForm(request.POST)
@@ -72,4 +76,10 @@ def cadastrar_topico_aula(request):
             with transaction.atomic():
                 novo_topico_aula = TopicoAula.objects.create(titulo=form.cleaned_data.get('titulo'),
                                                              descricao=form.cleaned_data.get('descricao'),
+
                                                              )
+                messages.success(request,
+                                 f'Seu Topico de Aula {form.cleaned_data.get("titulo")} foi cadastrado com sucesso!')
+                return redirect('home')
+    return render(request, 'usuarios/topicoscurso.html', locals())
+
