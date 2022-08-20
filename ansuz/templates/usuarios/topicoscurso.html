@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro - Tópicos de Aula</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+    <section class = "container mt-1">
+    <h1>Tópicos de Aula</h1>
+        <p>Deseja voltar? <a href="{% url 'home' %}">Home</a></p>
+        <form action = "{% url 'topicoscurso' %}" method="POST">
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+</body>
+</html>
