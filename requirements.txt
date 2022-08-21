@@ -1,11 +1,13 @@
 asgiref==3.5.2
 bleach==5.0.1
 canvas==0.3
+captcha==0.4
 DateTime==4.5
 Django==4.1
 django-crispy-forms==1.14.0
 django-localflavor==3.1
 django-markdownfield==0.10.0
+django-recaptcha==3.0.0
 localflavor==1.9
 Markdown==3.4.1
 numpy==1.23.2
