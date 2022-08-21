@@ -39,7 +39,6 @@ class Migration(migrations.Migration):
             name='Certificado',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nome', models.CharField(max_length=255, verbose_name='Nome do documento')),
                 ('pdf', models.FileField(upload_to='Tauany/LAIS/Segunda-Fase-LAIS/ansuz/documentos', verbose_name='PDF')),
                 ('codigo_verificador', models.CharField(max_length=8, verbose_name='Código Verificador')),
                 ('criado_em', models.DateTimeField(auto_now_add=True)),
