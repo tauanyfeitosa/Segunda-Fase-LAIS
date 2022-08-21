@@ -197,12 +197,29 @@ class TopicoAula(models.Model):
     def __str__(self):
         return self.titulo
 
-    #def limite_topicos_aula(self):
-
 class Certificado(models.Model):
-    nome = models.CharField(verbose_name="Nome do documento", max_length=255)
     pdf = models.FileField(verbose_name="PDF", upload_to="Tauany/Projeto-LAIS/Segunda-Fase-LAIS/ansuz/documentos")
-    codigo_verificador = models.CharField(verbose_name="Código Verificador", max_length=8)
+    codigo_verificador = models.CharField(verbose_name="Código Verificador", max_length=15)
     plano_curso = models.ForeignKey('PlanoCurso', related_name='certificados', on_delete=models.CASCADE)
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.codigo_verificador
+
+'''    def generate_codigo(n):
+        base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        codigo = ""
+        while (n):
+            codigo += base[random.randint(1, 1000) % 62]
+            n -= 1
+        return codigo
+    codigo_verificador = generate_codigo(15)''' #codigo verificador
+
+class Verificador(models.Model):
+    codigo = models.CharField(verbose_name="Código Verificador", max_length=15)
+    recaptcha=models.CharField(verbose_name='ReCaptcha', max_length=8)
+    codigo_verificador = models.ForeignKey('Certificado', related_name='verificadores', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.codigo_verificador
