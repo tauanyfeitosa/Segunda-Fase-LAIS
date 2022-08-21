@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ansuz',
     'localflavor',
     'crispy_forms',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,6 @@ AUTH_USER_MODEL = 'ansuz.Usuario'
 DATE_INPUT_FORMATS = ['%d-%m-%Y']
 
 SITE_URL = "https://example.com"
+
+RECAPTCHA_PUBLIC_KEY = '6LeiAJUhAAAAALjI2qROVVEDbkGDQstyLD68pawN'
+RECAPTCHA_PRIVATE_KEY = '6LeiAJUhAAAAAFJcJw2Onym0CIx12DP6OHMBSeG8'
