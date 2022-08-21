@@ -10,7 +10,7 @@ class UsuarioAdmin(admin.ModelAdmin):
 @admin.register(PlanoCurso)
 class PlanoCursoAdmin(admin.ModelAdmin):
     list_display = ['titulo','carga_horaria','area','prof_responsavel','status',]
-    list_filter = ['carga_horaria','area','status',]
+    list_filter = ['carga_horaria','area','status', 'prof_responsavel']
 
 @admin.register(Certificado)
 class CertificadoAdmin(admin.ModelAdmin):
