@@ -44,9 +44,8 @@
 </head>
 <body>
     <section class = "container mt-1">
-    <h1>Autenticação de Cursos</h1>
-        <p>Já tem uma conta? <a href="{% url 'login' %}">Entrar</a></p>
-        <p>Deseja se cadastrar? <a href="{% url 'cadastro' %}">Cadastro</a></p>
+    <h1>Autenticação de Cursos</h1><br><br>
+
         <form action = "{% url 'autenticar' %}" method="POST">
             {% csrf_token %}
             {% crispy form %}
