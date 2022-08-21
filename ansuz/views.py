@@ -1,6 +1,8 @@
 import datetime
 import io
 import random
+
+import pytz as pytz
 from django.http import FileResponse, JsonResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -100,7 +102,8 @@ def detalhar_topico(request, id_topico):
 @login_required
 def gerar_certificado(request, id_plano):
     plano_certificado = PlanoCurso.objects.get(pk=id_plano)
-    data_hoje = datetime.datetime.now().strftime('%d/%m/%Y às %H:%M:%S')
+    data_hoje = datetime.datetime.now(pytz.timezone('America/Sao_Paulo'))
+    data_hoje = data_hoje.strftime('%d/%m/%Y às %H:%M:%S')
 
     def generate_codigo(n):
         base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
