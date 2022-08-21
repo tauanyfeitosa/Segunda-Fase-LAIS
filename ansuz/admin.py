@@ -1,7 +1,5 @@
 from django.contrib import admin
-
-# Register your models here.
-from ansuz.models import Usuario, PlanoCurso
+from ansuz.models import Usuario, PlanoCurso, Certificado, TopicoAula
 
 
 @admin.register(Usuario)
@@ -13,3 +11,14 @@ class UsuarioAdmin(admin.ModelAdmin):
 class PlanoCursoAdmin(admin.ModelAdmin):
     list_display = ['titulo','carga_horaria','area','prof_responsavel','status',]
     list_filter = ['carga_horaria','area','status',]
+
+@admin.register(Certificado)
+class CertificadoAdmin(admin.ModelAdmin):
+    list_display = ['plano_curso','pdf','codigo_verificador','criado_em']
+
+@admin.register(TopicoAula)
+class TopicoAulaAdmin(admin.ModelAdmin):
+    list_display = ['plano_curso','titulo','criado_em']
+    list_filter = ['plano_curso']
+
+
