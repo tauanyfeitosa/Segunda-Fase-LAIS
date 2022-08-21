@@ -103,8 +103,10 @@ class LoginForms(forms.Form):
         password1 = self.cleaned_data.get('password1')
         cpf = self.cleaned_data.get('cpf')
         filtro = Usuario.objects.filter(cpf=cpf).first()
+        if not filtro:
+            raise forms.ValidationError('Este CPF não está cadastrado no sistema.')
         password2 = filtro.password
-        if check_password(password1 , password2) == False:
+        if check_password(password1, password2) == False:
             raise forms.ValidationError("A senha está incorreta!")
         if password1 == "":
             raise forms.ValidationError("Esse campo é obrigatório!")
@@ -114,8 +116,8 @@ class SubmeterNovoPlanoForm(forms.Form):
     area = forms.ModelChoiceField(label='Área Temática', empty_label='Selecione', queryset=Area.objects.all(),
                                   required=True)
     carga_horaria = forms.IntegerField(label='Carga Horária', min_value=3, max_value=350, required=True)
-    ementa = forms.CharField(widget=forms.Textarea, label='Ementa do Curso', max_length=500, required=True)
-    obj_geral = forms.CharField(widget=forms.Textarea, label='Objetivo Geral', max_length=300, required=True)
+    ementa = forms.CharField(widget=forms.Textarea, label='Ementa do Curso', max_length=700, required=True)
+    obj_geral = forms.CharField(widget=forms.Textarea, label='Objetivo Geral', max_length=500, required=True)
     avaliacao = forms.ChoiceField(label='Avaliação', choices=[(None, 'Selecione')] + list(Avaliacao.CHOICES), required=True)
 
     def __init__(self, *args, **kwargs):
@@ -152,9 +154,11 @@ class CadastrarTopicoAulaForm(forms.Form):
             ),
             Submit('submit', 'Cadastrar', css_class='btn btn-primary'))
 
+
 class VerificadorForm(forms.Form):
-    codigo = forms.CharField(max_length=8, label='Código de Autentificação', required=True)
+    codigo = forms.CharField(max_length=15, label='Código de Autentificação', required=True)
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
