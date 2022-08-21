@@ -10,10 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='certificado',
-            name='nome',
-        ),
         migrations.AlterField(
             model_name='certificado',
             name='codigo_verificador',
