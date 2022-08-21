@@ -149,3 +149,16 @@ class CadastrarTopicoAulaForm(forms.Form):
                 Column("descricao", css_class="form-group col-12"),
             ),
             Submit('submit', 'Cadastrar', css_class='btn btn-primary'))
+
+class VerificadorForm(forms.Form):
+    codigo = forms.CharField(max_length=8, label='Código de Autentificação', required=True)
+    recaptcha = forms.CharField(max_length=8, labe='ReCaptcha', required=True)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column("codigo", css_class="form-group col-12"),
+                Column("recaptcha", css_class="form-group col-12"),
+            ),
+            Submit('submit', 'Verificar', css_class='btn btn-primary'))
