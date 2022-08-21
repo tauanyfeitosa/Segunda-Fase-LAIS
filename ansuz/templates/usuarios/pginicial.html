@@ -3,13 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Página Inicial</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h1> Bem-vindo(a) à plataforma de Comunidade de Práticas do AVASUS, <b>o Ansuz<b>! </h1>
-        <div class="classnav">
-            <li> Já tem uma conta? Clique aqui para efetuar seu <a href= "{% url 'login' %}"> Login </a></li>
-            <li> Não possui conta? Clique aqui para realizar seu <a href= "{% url 'cadastro' %}"> Cadastro </a></li>
-            <li> Quer verificar a autenticidade de seus certificados? <a href= "{% url 'autenticar' %}"> Clique aqui </a></li>
+        <div class="container mt-2"><br><br>
+        <p class="lead"> <h1> Bem-vindo(a) à plataforma de Comunidade de Práticas do AVASUS, <b>o Ansuz! <b></h1> </p><br><br>
+
+        <p class="lead"> <h5> <b> Sobre nós: </b> </h5></p>
+        <p class="lead"> <h8> Somos o primeiro laboratório instalado em um hospital brasileiro com o propósito de
+            promover a inovação tecnológica em saúde. Através de três linhas de atuação (Gestão, Assistência e
+            Educação), nosso trabalho visa o aprimoramento da qualidade dos serviços para toda a população,
+            transformando vidas através da ciência humanizada e capaz de impactar histórias não somente no Rio Grande do
+            Norte, como no Mundo. Nossa maior satisfação é poder levar, com muito orgulho, o nome de nossa terra e
+            representar com competência o nosso país.</h8></p>
+
+        <p class="lead"> <h5> <b> Sobre o AVASUS: </b> </h5></p>
+        <p class="lead"> <h8> O Ambiente Virtual de Aprendizagem do SUS, AVASUS, é uma plataforma que vem auxiliando na
+            transformação do cotidiano da saúde pública brasileira por meio da formação continuada em trabalho.</h8></p>
+
+        <p class="lead"> <h5> <b> Sobre o ANSUZ: </b> </h5></p>
+        <p class="lead"> <h8> No AVASUS há uma Comunidade de Práticas que permite a troca de experiências e interação
+            entre alunos de cursos à distância para otimizar o seu aprendizado. Ela designa um grupo de pessoas que se
+            unem em torno de um mesmo tópico ou interesse. Essas pessoas trabalham juntas para achar meios de melhorar
+            o que fazem, ou seja, na resolução de um problema na comunidade ou no aprendizado diário, através da
+            interação regular.</h8></p>
         </div>
+          <div class="container my-2">
+
+		     <hr class="mt-2">
+
+              <a class="btn btn-primary btn-lg me-2" href="https://avasus.ufrn.br/" target="_blank" role="button"> Conheça-nos: AVASUS</a>
+              <a class="btn btn-primary btn-lg me-2" href="https://lais.huol.ufrn.br/" target="_blank" role="button"> Conheça-nos: LAIS</a>
+              <a class="btn btn-info btn-lg me-2" target="_blank" href="{% url 'login' %}" role="button">Login</a>
+              <a class="btn btn-success btn-lg me-2" target="_blank" href="{% url 'cadastro' %}" role="button">Cadastra-se</a>
+              <a class="btn btn-secondary btn-lg me-2" target="_blank" href="{% url 'autenticar' %}" role="button"> Autenticar</a><br><br>
+
+              <p class="lead">Selecione a opção desejada</p>
+
+
+          </div>
+
+          <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 </body>
 </html>
