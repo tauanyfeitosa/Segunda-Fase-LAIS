@@ -1,5 +1,6 @@
 asgiref==3.5.2
 bleach==5.0.1
+canvas==0.3
 DateTime==4.5
 Django==4.1
 django-crispy-forms==1.14.0
@@ -9,10 +10,12 @@ localflavor==1.9
 Markdown==3.4.1
 numpy==1.23.2
 pandas==1.4.3
+Pillow==9.2.0
 psycopg2==2.9.3
 python-dateutil==2.8.2
 python-stdnum==1.17
 pytz==2022.1
+reportlab==3.6.11
 shortuuid==1.0.9
 six==1.16.0
 sqlparse==0.4.2
