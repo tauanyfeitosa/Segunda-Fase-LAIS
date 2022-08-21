@@ -9,7 +9,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import redirect, render
-from ansuz.models import Usuario, PlanoCurso, TopicoAula
+from django.core.files.base import ContentFile
+from ansuz.models import Usuario, PlanoCurso, TopicoAula, Certificado
 from ansuz.forms import CadastroForm, LoginForms, SubmeterNovoPlanoForm, CadastrarTopicoAulaForm, VerificadorForm
 
 
@@ -137,12 +138,28 @@ def gerar_certificado(request, id_plano):
     cnv.showPage()
     cnv.save()
     buffer.seek(0)
+    pdf_file = ContentFile(buffer.getvalue())
+    certificado = Certificado.objects.create(codigo_verificador=codigo_verificador, plano_curso=plano_certificado)
+    certificado.pdf.save('certificado_de_curso.pdf', pdf_file)
     return FileResponse(buffer, as_attachment=True, filename='certificado_de_curso.pdf')
 
 def autenticar_documentos(request):
     form = VerificadorForm(request.POST or None)
     if request.method == 'POST':
-        form = VerificadorForm(request.POST)
-        if form.is_valid:
-            return redirect('home')
+        try:
+            form = VerificadorForm(request.POST)
+            if form.is_valid():
+                codigo = form.cleaned_data.get('codigo')
+                certificado = Certificado.objects.filter(codigo_verificador=codigo).first()
+                if certificado:
+                    messages.success(request, "O arquivo é um arquivo válido do ANSUZ!")
+                    return redirect('autenticar')
+                else:
+                    messages.error(request, "Código verificador inválido. O arquivo não pertence ao ANSUZ.")
+                    return redirect('autenticar')
+
+        except Exception as e:
+            messages.error(request, e)
+            return redirect('autenticar')
+
     return render(request, 'usuarios/autenticar.html', locals())
