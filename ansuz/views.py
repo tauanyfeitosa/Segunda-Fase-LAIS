@@ -1,7 +1,7 @@
 import datetime
 import io
 import random
-from django.http import FileResponse
+from django.http import FileResponse, JsonResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from django.contrib import messages, auth
@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import redirect, render
 from ansuz.models import Usuario, PlanoCurso, TopicoAula
-from ansuz.forms import CadastroForm, LoginForms, SubmeterNovoPlanoForm, CadastrarTopicoAulaForm
+from ansuz.forms import CadastroForm, LoginForms, SubmeterNovoPlanoForm, CadastrarTopicoAulaForm, VerificadorForm
 
 
 def cadastro(request):
@@ -138,3 +138,11 @@ def gerar_certificado(request, id_plano):
     cnv.save()
     buffer.seek(0)
     return FileResponse(buffer, as_attachment=True, filename='certificado_de_curso.pdf')
+
+def autenticar_documentos(request):
+    form = VerificadorForm(request.POST or None)
+    if request.method == 'POST':
+        form = VerificadorForm(request.POST)
+        if form.is_valid:
+            return redirect('home')
+    return render(request, 'usuarios/autenticar.html', locals())
