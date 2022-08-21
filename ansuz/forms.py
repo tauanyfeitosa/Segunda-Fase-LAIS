@@ -6,8 +6,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import check_password
 from django.utils.datetime_safe import date
 from localflavor.br.forms import BRCPFField
-from ansuz.models import Usuario, Area, Avaliacao, StatusCurso, PlanoCurso
+from ansuz.models import Usuario, Area, Avaliacao
 from ansuz.models import Titulacao
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
 
 class CadastroForm(UserCreationForm):
     nome_completo = forms.CharField(max_length=255, label='Nome Completo', required=True)
@@ -152,13 +154,13 @@ class CadastrarTopicoAulaForm(forms.Form):
 
 class VerificadorForm(forms.Form):
     codigo = forms.CharField(max_length=8, label='Código de Autentificação', required=True)
-    recaptcha = forms.CharField(max_length=8, labe='ReCaptcha', required=True)
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
                 Column("codigo", css_class="form-group col-12"),
-                Column("recaptcha", css_class="form-group col-12"),
+                Column("captcha", css_class="form-group col-12"),
             ),
             Submit('submit', 'Verificar', css_class='btn btn-primary'))
