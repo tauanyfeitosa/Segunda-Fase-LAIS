@@ -8,7 +8,8 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('home', views.home, name='home'),
     path('logout', views.logout_user, name='logout'),
-    path('autenticar', views.autenticar, name='autenticar'),
+    path('autenticar', views.gerar_certificado, name='autenticar'),
     path('topicoscurso/<int:id_plano>', views.topicoscurso, name='topicoscurso'),
-    path('detalhar_topico/<int:id_topico>', views.detalhar_topico, name='detalhar_topico')
+    path('detalhar_topico/<int:id_topico>', views.detalhar_topico, name='detalhar_topico'),
+    path('gerar_certificado/<int:id_plano>', views.gerar_certificado, name='gerar_certificado'),
 ]
