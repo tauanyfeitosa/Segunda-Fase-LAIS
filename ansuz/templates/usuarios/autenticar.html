@@ -1,10 +1,21 @@
 <!DOCTYPE html>
+{% load crispy_forms_tags %}
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <title>Autentificação</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
-<body>
-    <h1> Criar sistema de autentificação de certificados </h1>
+    <section class = "container mt-1">
+    <h1>Autenticação de Cursos</h1>
+        <p>Já tem uma conta? <a href="{% url 'login' %}">Entrar</a></p>
+        <p>Deseja se cadastrar? <a href="{% url 'cadastro' %}">Cadastro</a></p>
+        <form action = "{% url 'autenticar' %}" method="POST">
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+    </section>
 </body>
 </html>
+
