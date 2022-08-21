@@ -98,7 +98,8 @@
                                             {% for topicos in plano.topicos_aula.all %}
                                     <a href="{% url 'detalhar_topico' topicos.id %}"><p>{{ topicos }}</p></h6></a></p> {% endfor %}
                                     {% if plano.status == '1' %}
-                                    <a class="d-flex justify-content-end" href="{% url 'topicoscurso' plano.id %}">Novo Tópico</a>
+                                    <a class="d-flex justify-content-left" href="{% url 'gerar_certificado' plano.id %}">Certificado do Plano de Curso</a>
+                                    <a class="d-flex justify-content-right" href="{% url 'topicoscurso' plano.id %}">Novo Tópico</a>
                                     {% endif %}
                                 </div>
                             </div>
