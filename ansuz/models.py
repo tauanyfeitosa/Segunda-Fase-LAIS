@@ -1,10 +1,9 @@
 from dateutil.relativedelta import relativedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser, PermissionsMixin
-)
+from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser, PermissionsMixin)
 from django.utils.datetime_safe import date
+from django.core.exceptions import ValidationError
 from localflavor.br.models import BRCPFField
 from markdownfield.models import MarkdownField, RenderedMarkdownField
 from markdownfield.validators import VALIDATOR_STANDARD
@@ -209,7 +208,7 @@ class TopicoAula(models.Model):
         super().save(*args, **kwargs)
 
 class Certificado(models.Model):
-    pdf = models.FileField(verbose_name="PDF", upload_to="Tauany/Projeto-LAIS/Segunda-Fase-LAIS/ansuz/documentos")
+    pdf = models.FileField(verbose_name="PDF", upload_to="Tauany/Projeto-LAIS/Segunda-Fase-LAIS/ansuz/documentos", null=True, blank=True)
     codigo_verificador = models.CharField(verbose_name="Código Verificador", max_length=15)
     plano_curso = models.ForeignKey('PlanoCurso', related_name='certificados', on_delete=models.CASCADE)
     criado_em = models.DateTimeField(auto_now_add=True)
